@@ -3,9 +3,6 @@ import json
 import numpy as np
 import pyUAMMD
 
-with open("./parameters.json") as f:
-    inputData = json.load(f)
-
 def oneSimulation(inputData):
     particles = np.loadtxt("ftsz.org")
     N = particles.shape[0]
@@ -115,18 +112,14 @@ def oneSimulation(inputData):
     sim["simulationStep"]["saveState"]["type"]=["WriteStep","WriteStep"]
     sim["simulationStep"]["saveState"]["parameters"]={
         "intervalStep":nWrite,
-        "outputFilePath":"output",
-        "outputFormat":"sp",
+        "outputFilePath":"results/output",
+        "outputFormat":"xyz",
     }
 
     return sim
 
-#try:
-#    os.makedirs("results")
-#except:
-#    pass
-
-#sim.write("results/simulation.json")
+with open("./parameters.json") as f:
+    inputData = json.load(f)
 
 total_sim = pyUAMMD.simulation()
 total_sim = oneSimulation(inputData)
@@ -136,4 +129,6 @@ for n in range(1,inputData["nBatch"]):
     total_sim.append(sim_i)
 
 os.makedirs("results", exist_ok=True)
-total_sim.write("results/simulation.json")
+total_sim.run()
+
+
