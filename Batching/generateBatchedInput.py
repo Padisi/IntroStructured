@@ -113,7 +113,7 @@ def oneSimulation(inputData):
     sim["simulationStep"]["saveState"]["parameters"]={
         "intervalStep":nWrite,
         "outputFilePath":"results/output",
-        "outputFormat":"xyz",
+        "outputFormat":"sp",
     }
 
     return sim
@@ -129,6 +129,8 @@ for n in range(1,inputData["nBatch"]):
     total_sim.append(sim_i)
 
 os.makedirs("results", exist_ok=True)
-total_sim.run()
+total_sim.write("results/simulation.json")
+#total_sim.run()
+
 
 
